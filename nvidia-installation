@@ -4,7 +4,7 @@ width=72
 height=22
 menu_height=8
 backtitle='Installer-menu'
-title='Package options'
+title='NVidia driver selection'
 menu='Choose one of the following options:'
 
 options=(1 'Install nvidia 515'
@@ -22,9 +22,9 @@ result=$(dialog --clear \
                 2>&1 >/dev/tty)
 
 case "$result" in
-     1) echo 'Package Install';
+     1) echo 'NVidia driver 515 installation';
      	apt install nvidia-driver-515 -y;;
-     2) echo 'Manualy installed packages exported';
+     2) echo 'NVidia driver 525 installation';
      	apt install nvidia-driver-525 -y;;
      3) echo 'Package upgrade';
      	apt update && apt upgrade -y;;
