@@ -1,0 +1,14 @@
+aptitude
+slick-greeter muffin cinnamon
+gnome-terminal gnome-system-tools gnome-disk-utility gparted gnome-system-monitor psensor
+fonts-symbola
+yaru-theme-icon
+subversion
+gir1.2-gtop-2.0 gir1.2-nm-1.0 gir1.2-clutter-1.0 gnome-system-monitor
+sysstat
+ntpdate
+easy-rsa
+gnome-shell-extension-manager
+mintinstall
+mintupdate
+dialog

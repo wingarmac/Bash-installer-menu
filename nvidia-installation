@@ -1,5 +1,5 @@
 #!/bin/bash
-
+show_menu(){
 width=72
 height=22
 menu_height=8
@@ -20,15 +20,20 @@ result=$(dialog --clear \
                 $height $width $menu_height \
                 "${options[@]}" \
                 2>&1 >/dev/tty)
-
+}
+show_menu
 case "$result" in
      1) echo 'NVidia driver 515 installation';
-     	apt install nvidia-driver-515 -y;;
+     	apt install nvidia-driver-515 -y;
+     	show_menu;;
      2) echo 'NVidia driver 525 installation';
-     	apt install nvidia-driver-525 -y;;
+     	apt install nvidia-driver-525 -y;
+     	show_menu;;
      3) echo 'Package upgrade';
-     	apt update && apt upgrade -y;;
+     	apt update && apt upgrade -y;
+     	show_menu;;
      x) echo 'Reboot';
      	reboot;;
      q) clear; exit ;;
 esac
+

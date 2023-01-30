@@ -1,5 +1,5 @@
 #!/bin/bash
-
+show_menu(){
 width=72
 height=22
 menu_height=8
@@ -20,15 +20,18 @@ result=$(dialog --clear \
                 $height $width $menu_height \
                 "${options[@]}" \
                 2>&1 >/dev/tty)
-
+}
+show_menu
 case "$result" in
-     1) echo Package Install;
+     1) echo 'Package Install';
      	sh installpkgs.sh;;
-     2) echo Manualy installed packages exported;
+     2) echo 'Manualy installed packages exported';
      	sh pkgsexport.sh;;
-     3) echo Package upgrade;
-     	apt update && apt upgrade -y;;
-     x) echo Reboot;
+     3) echo 'Package upgrade';
+     	apt update && apt upgrade -y;
+     	show_menu;;
+     x) echo 'Reboot';
      	reboot;;
-     q) clear; exit ;;
+     q) clear; 
+     	exit ;;
 esac
