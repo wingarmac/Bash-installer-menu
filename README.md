@@ -37,7 +37,20 @@ What it does:
 - It has a menu to install additional software from a text-list and also 3th party software I like to use that uses deb packages to be installed.
 
 - - -
+**Usage:**
+---
 
+`git clone https://github.com/wingarmac/Bash-installer-menu.git`
+
+`cd Bash-installer-menu`
+
+`chmod a+x Installer-menu.sh`
+
+`./Installer-menu.sh`
+
+
+
+- - -
 References used to create it:
  - https://unix.stackexchange.com/questions/733152/whats-the-difference-between-sh-command-and-run-as-executable/
  - https://unix.stackexchange.com/questions/733425/creating-debug-of-a-bash-script-menu
