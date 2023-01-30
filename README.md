@@ -14,7 +14,7 @@ Only for Ubuntu server (22.04 tested) and installation of the Cinnamon Desktop
 
 **Prerequisite:** [dialog](https://launchpad.net/ubuntu/+source/dialog)
 
-A check to verify its presence has been added at start of the script. The package will be installed automatically if needed.
+A check to verify its presence has been added at the start of the script. The package will be installed automatically if needed.
 
 - - -
 
