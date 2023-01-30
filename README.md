@@ -12,11 +12,11 @@ See: https://github.com/wingarmac/software-install
 
 Only for Ubuntu server (22.04 tested) and installation of the Cinnamon Desktop
 
-**Prerequisite:**
-
-[dialog](https://launchpad.net/ubuntu/+source/dialog)
+**Prerequisite:** [dialog](https://launchpad.net/ubuntu/+source/dialog)
 
 A check to verify its presence has been added. The package will be installed automatically.
+
+- - -
 
 ![Screenshot from 2023-01-30 16-57-34](https://user-images.githubusercontent.com/78303089/215549331-f3c7dd01-08d0-4018-8866-e061fe7fb981.png)
 
