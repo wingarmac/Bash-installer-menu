@@ -39,7 +39,7 @@ case "$result" in
     4)	bash packages;;
     5)	sh ubuntu-mainline-kernel.sh;;
     6)	sh problem-solver.sh;;
-    7)	nvidia-installation;;
+    7)	bash nvidia-installation;;
     x)  echo Reboot;
      	reboot;;
     q) clear; exit ;;
