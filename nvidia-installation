@@ -1,0 +1,34 @@
+#!/bin/bash
+
+width=72
+height=22
+menu_height=8
+backtitle='Installer-menu'
+title='Package options'
+menu='Choose one of the following options:'
+
+options=(1 'Install nvidia 515'
+         2 'Install nvidia 525'
+         3 'update and upgrade'
+         x reboot
+         q quit )
+
+result=$(dialog --clear \
+                --backtitle "$backtitle" \
+                --title "$title" \
+                --menu "$menu" \
+                $height $width $menu_height \
+                "${options[@]}" \
+                2>&1 >/dev/tty)
+
+case "$result" in
+     1) echo 'Package Install';
+     	apt install nvidia-driver-515 -y;;
+     2) echo 'Manualy installed packages exported';
+     	apt install nvidia-driver-525 -y;;
+     3) echo 'Package upgrade';
+     	apt update && apt upgrade -y;;
+     x) echo 'Reboot';
+     	reboot;;
+     q) clear; exit ;;
+esac
