@@ -53,7 +53,7 @@ width=72
 height=22
 menu_height=8
 backtitle='Installer-menu'
-title='Package options'
+title='Resolver menu'
 menu='Choose one of the following options:'
 
 options=(1 'Network applet problem'
