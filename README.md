@@ -44,9 +44,9 @@ What it does:
 
 `cd Bash-installer-menu`
 
-`chmod a+x Installer-menu.sh`
+`chmod a+x Installer-menu`
 
-`./Installer-menu.sh`
+`./Installer-menu`
 
 
 
