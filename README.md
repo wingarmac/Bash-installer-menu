@@ -2,8 +2,11 @@
 Bash menu for Cinnamon on Ubuntu server
 ---
 Convertion of the shell script to a bash menu version
-- - - 
+
 See: https://github.com/wingarmac/software-install
+
+- - - 
+
 
 **Purpose:**
 Only for Ubuntu server (22.04 tested) and installation of the Cinnamon Desktop
