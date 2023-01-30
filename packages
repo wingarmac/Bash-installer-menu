@@ -1,0 +1,34 @@
+#!/bin/bash
+
+width=72
+height=22
+menu_height=8
+backtitle='Installer-menu'
+title='Package options'
+menu='Choose one of the following options:'
+
+options=(1 'Install package list'
+         2 'Export package list'
+         3 'update and upgrade'
+         x reboot
+         q quit )
+
+result=$(dialog --clear \
+                --backtitle "$backtitle" \
+                --title "$title" \
+                --menu "$menu" \
+                $height $width $menu_height \
+                "${options[@]}" \
+                2>&1 >/dev/tty)
+
+case "$result" in
+     1) echo Package Install;
+     	sh installpkgs.sh;;
+     2) echo Manualy installed packages exported;
+     	sh pkgsexport.sh;;
+     3) echo Package upgrade;
+     	apt update && apt upgrade -y;;
+     x) echo Reboot;
+     	reboot;;
+     q) clear; exit ;;
+esac
