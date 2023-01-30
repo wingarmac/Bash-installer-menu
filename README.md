@@ -5,7 +5,8 @@ Convertion of the shell script to a bash menu version
 - - - 
 See: https://github.com/wingarmac/software-install
 
-*This menu has been made for personal use to reinstall the operating system environement.*
+**Purpose:**
+Only for Ubuntu server (22.04 tested) and installation of the Cinnamon Desktop
 
 **Prerequisite:**
 apt install [dialog](https://launchpad.net/ubuntu/+source/dialog)
