@@ -1,4 +1,14 @@
 #!/bin/bash
+# dialog package requirement
+# check for dialog presence and install it if not yet done.
+REQUIRED_PKG="dialog"
+PKG_OK=$(dpkg-query -W --showformat='${Status}\n' $REQUIRED_PKG|grep "install ok installed")
+echo Checking for $REQUIRED_PKG: $PKG_OK
+if [ "" = "$PKG_OK" ]; then
+  echo "No $REQUIRED_PKG. Setting up $REQUIRED_PKG."
+  apt install -y $REQUIRED_PKG
+fi
+# Installer-menu
 show_root_menu(){
 width=72
 height=50
