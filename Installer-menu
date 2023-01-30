@@ -24,6 +24,31 @@ result=$(dialog --clear \
                 $height $width $menu_height \
                 "${options[@]}" \
                 2>&1 >/dev/tty)
+
+case "$result" in
+    1)  echo 'Mint backport repos installed';
+        apt-key adv --recv-keys --keyserver keyserver.ubuntu.com A1715D88E1DF1F24 40976EAF437D05B5 3B4FE6ACC0B21F32 A6616109451BBBF2;
+        sh -c 'echo "deb http://packages.linuxmint.com vanessa main upstream import backport romeo" >> /etc/apt/sources.list.d/mint.list';
+        sh -c 'echo "deb-src http://packages.linuxmint.com vanessa main upstream import backport romeo" >> /etc/apt/sources.list.d/mint.list';
+        apt-key export 451BBBF2 | gpg --dearmour -o /etc/apt/trusted.gpg.d/mint.gpg;
+        apt update;
+        show_root_menu;;
+    2)  echo 'Installation of Cinnamon';
+        apt install slick-greeter muffin cinnamon;
+        show_root_menu;;
+    3)  echo 'Package upgrade';
+        apt update && apt upgrade -y;
+        show_root_menu;;
+    4)  show_pckg_menu;;
+    5)  sh ubuntu-mainline-kernel.sh;
+        show_root_menu;;
+    6)  show_solver_menu;;
+    7)  show_nvidia_menu;;
+    x)  echo Reboot;
+        reboot;;
+    q)  clear; 
+        exit ;;
+esac
 }
 show_pckg_menu(){
 width=72
@@ -47,6 +72,21 @@ result=$(dialog --clear \
                 $height $width $menu_height \
                 "${options[@]}" \
                 2>&1 >/dev/tty)
+
+case "$result" in
+     1) echo 'Package Install';
+        sh installpkgs.sh;;
+     2) echo 'Manualy installed packages exported';
+        sh pkgsexport.sh;;
+     3) echo 'Package upgrade';
+        apt update && apt upgrade -y;
+        show_pckg_menu;;
+     4) show_root_menu;;
+     x) echo 'Reboot';
+        reboot;;
+     q) clear; 
+        exit ;;
+esac
 }
 show_solver_menu(){
 width=72
@@ -71,6 +111,32 @@ result=$(dialog --clear \
                 $height $width $menu_height \
                 "${options[@]}" \
                 2>&1 >/dev/tty)
+
+case "$result" in
+     1) echo 'Applying changes to network settings';
+        clear;
+        option_picked "Option 1 Picked";
+        touch /etc/network/interfaces;
+        sh -c 'echo "auto lo" >> /etc/network/interfaces';
+        sh -c 'echo "iface lo inet loopback" >> /etc/network/interfaces';
+        sh -c 'echo "  renderer: NetworkManager" >> /etc/netplan/*.yaml';
+        netplan apply;
+        show_solver_menu;;
+     2) echo 'Applying changes to sound settings';
+        ln -s /usr/share/pipewire /etc/pipewire;
+        touch /usr/share/pipewire/media-session.d/with-pulseaudio;
+        systemctl --user restart pipewire-session-manager;
+        systemctl --user start pulseaudio;
+        show_solver_menu;;
+     3) echo 'Package upgrade';
+        apt update && apt upgrade -y;
+        show_solver_menu;;
+     4) show_root_menu;;
+     x) echo 'Reboot';
+        reboot;;
+     q) clear; 
+        exit ;;
+esac
 }
 show_nvidia_menu(){
 width=72
@@ -94,91 +160,22 @@ result=$(dialog --clear \
                 $height $width $menu_height \
                 "${options[@]}" \
                 2>&1 >/dev/tty)
-}
-show_root_menu
-case "$result" in
-    1)	echo 'Mint backport repos installed';
-    	apt-key adv --recv-keys --keyserver keyserver.ubuntu.com A1715D88E1DF1F24 40976EAF437D05B5 3B4FE6ACC0B21F32 A6616109451BBBF2;
-    	sh -c 'echo "deb http://packages.linuxmint.com vanessa main upstream import backport romeo" >> /etc/apt/sources.list.d/mint.list';
-    	sh -c 'echo "deb-src http://packages.linuxmint.com vanessa main upstream import backport romeo" >> /etc/apt/sources.list.d/mint.list';
-    	apt-key export 451BBBF2 | gpg --dearmour -o /etc/apt/trusted.gpg.d/mint.gpg;
-    	apt update;
-    	show_root_menu;;
-    2)	echo 'Installation of Cinnamon';
-    	apt install slick-greeter muffin cinnamon;
-    	show_root_menu;;
-    3)	echo 'Package upgrade';
-    	apt update && apt upgrade -y;
-    	show_root_menu;;
-    4)	show_pckg_menu;;
-    5)	sh ubuntu-mainline-kernel.sh;
-    	show_root_menu;;
-    6)	show_solver_menu;;
-    7)	show_nvidia_menu;;
-    x)  echo Reboot;
-     	reboot;;
-    q) 	clear; 
-    	exit ;;
-esac
 
-show_pckg_menu
-case "$result" in
-     1) echo 'Package Install';
-     	sh installpkgs.sh;;
-     2) echo 'Manualy installed packages exported';
-     	sh pkgsexport.sh;;
-     3) echo 'Package upgrade';
-     	apt update && apt upgrade -y;
-     	show_pckg_menu;;
-     4)	show_root_menu;;
-     x) echo 'Reboot';
-     	reboot;;
-     q) clear; 
-     	exit ;;
-esac
-
-show_solver_menu
-case "$result" in
-     1) echo 'Applying changes to network settings';
-     	clear;
-        option_picked "Option 1 Picked";
-        touch /etc/network/interfaces;
-        sh -c 'echo "auto lo" >> /etc/network/interfaces';
-        sh -c 'echo "iface lo inet loopback" >> /etc/network/interfaces';
-        sh -c 'echo "  renderer: NetworkManager" >> /etc/netplan/*.yaml';
-        netplan apply;
-        show_solver_menu;;
-     2) echo 'Applying changes to sound settings';
-     	ln -s /usr/share/pipewire /etc/pipewire;
-        touch /usr/share/pipewire/media-session.d/with-pulseaudio;
-        systemctl --user restart pipewire-session-manager;
-        systemctl --user start pulseaudio;
-        show_solver_menu;;
-     3) echo 'Package upgrade';
-     	apt update && apt upgrade -y;
-     	show_solver_menu;;
-     4)	show_root_menu;;
-     x) echo 'Reboot';
-     	reboot;;
-     q) clear; 
-        exit ;;
-esac
-
-show_nvidia_menu
 case "$result" in
      1) echo 'NVidia driver 515 installation';
-     	apt install nvidia-driver-515 -y;
-     	show_nvidia_menu;;
+        apt install nvidia-driver-515 -y;
+        show_nvidia_menu;;
      2) echo 'NVidia driver 525 installation';
-     	apt install nvidia-driver-525 -y;
-     	show_nvidia_menu;;
+        apt install nvidia-driver-525 -y;
+        show_nvidia_menu;;
      3) echo 'Package upgrade';
-     	apt update && apt upgrade -y;
-     	show_nvidia_menu;;
-     4)	show_root_menu;;
+        apt update && apt upgrade -y;
+        show_nvidia_menu;;
+     4) show_root_menu;;
      x) echo 'Reboot';
-     	reboot;;
+        reboot;;
      q) clear; exit ;;
 esac
+}
 
-
+show_root_menu
