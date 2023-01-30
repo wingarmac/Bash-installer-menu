@@ -41,4 +41,5 @@ References used to create it:
  - https://unix.stackexchange.com/questions/733425/creating-debug-of-a-bash-script-menu
  - https://unix.stackexchange.com/questions/733722/back-to-root-menu-in-script-doesnt-respond-like-it-should
  - https://askubuntu.com/questions/1450586/uninstalled-applications-arent-automatically-removed-from-the-cinnamon-menu
+ - https://stackoverflow.com/questions/1298066/how-can-i-check-if-a-package-is-installed-and-install-it-if-not/10439058#10439058
  
