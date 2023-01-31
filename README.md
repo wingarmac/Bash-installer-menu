@@ -34,7 +34,9 @@ What it does:
   Since I only use Nvidia drivers on my computer, I just did add the version I personally need.
 
 - It has an option to update the Ubuntu kernel to its last release
-- It has a menu to install additional software from a text-list and also 3th party software I like to use that uses deb packages to be installed.
+- It has a menu to install additional software from a It has a menu to install additional packages from the installation.txt file. 
+- This is togheter in a submenu with a command to export to installation.txt all what has been installed with the `apt install` command manually.
+- And 3th party software options I like to use, that uses dpkg -i to be installed.
 
 - - -
 **Usage:**
