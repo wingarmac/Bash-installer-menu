@@ -23,11 +23,6 @@ A check to verify its presence has been added at the start of the script. The pa
 What it does:
 ---
 - It resolves known issues with sound on Ubuntu and the Cinnamon network applet.
-
-  [For more details about the network applet issue here](https://askubuntu.com/questions/1135755/network-manager-applet-shows-not-connected-and-one-unmanaged-wired-connection/1439162#1439162)
-
-  [For more information about the trouble with sound on Ubuntu](https://askubuntu.com/questions/1436904/problem-with-sound-in-ubuntu-22-10/1440458#1440458)
-
 - It makes it easy to add the Mint backports for Cinnamon install on Ubuntu
 - It let you select the proprietary driver to install for graphics
 
