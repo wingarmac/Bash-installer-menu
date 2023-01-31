@@ -48,7 +48,7 @@ What it does:
 
 `chmod a+x Installer-menu`
 
-`./Installer-menu`
+`sudo ./Installer-menu`
 
 
 
