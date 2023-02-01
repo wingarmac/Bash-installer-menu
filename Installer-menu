@@ -201,9 +201,11 @@ case "$result" in
         clear;
         option_picked "Option 1 Picked";
         touch /etc/network/interfaces;
-        sh -c 'echo "auto lo" >> /etc/network/interfaces';
-        sh -c 'echo "iface lo inet loopback" >> /etc/network/interfaces';
-        sh -c 'echo "  renderer: NetworkManager" >> /etc/netplan/*.yaml';
+        echo "auto lo" >> /etc/network/interfaces;
+        echo "iface lo inet loopback" >> /etc/network/interfaces;
+        cp /etc/netplan/00-installer-config.yaml /etc/netplan/network.yaml;
+        rm /etc/netplan/00-installer-config.yaml;
+        echo "  renderer: NetworkManager" >> /etc/netplan/network.yaml;
         netplan apply;
         show_solver_menu;;
      2) echo 'Applying changes to sound settings';
