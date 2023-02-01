@@ -163,6 +163,7 @@ case "$result" in
 	echo 'deb https://download.webmin.com/download/repository sarge contrib' >> /etc/apt/sources.list;
 	apt update;
 	apt install apt-transport-https webmin;;
+	show_dpkg_menu;;
      6) show_root_menu;;
      x) echo 'Reboot';
         reboot;;
