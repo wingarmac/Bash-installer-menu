@@ -10,7 +10,7 @@ fi
 show_root_menu(){
 width=72
 height=50
-menu_height=9
+menu_height=10
 backtitle="Installer-menu"
 title="Setup opions"
 menu="Choose one of the following options:"
@@ -63,7 +63,7 @@ esac
 show_pckg_menu(){
 width=72
 height=22
-menu_height=8
+menu_height=10
 backtitle='Installer-menu'
 title='Package options'
 menu='Choose one of the following options:'
@@ -101,7 +101,7 @@ esac
 show_dpkg_menu(){
 width=72
 height=22
-menu_height=8
+menu_height=10
 backtitle='Installer-menu'
 title='Package options'
 menu='Choose one of the following options:'
@@ -174,7 +174,7 @@ esac
 show_solver_menu(){
 width=72
 height=22
-menu_height=8
+menu_height=10
 backtitle='Installer-menu'
 title='Resolver menu'
 menu='Choose one of the following options:'
@@ -228,7 +228,7 @@ esac
 show_nvidia_menu(){
 width=72
 height=22
-menu_height=8
+menu_height=10
 backtitle='Installer-menu'
 title='NVidia driver selection'
 menu='Choose one of the following options:'
