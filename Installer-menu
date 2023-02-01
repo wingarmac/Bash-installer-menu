@@ -182,7 +182,8 @@ menu='Choose one of the following options:'
 options=(1 'Network applet problem'
          2 'Sound problem'
          3 'update and upgrade'
-         4 'Show root menu'
+         4 'Fix Cinnamon PPA error'
+         5 'Show root menu'
          x reboot
          q quit )
 
@@ -211,10 +212,11 @@ case "$result" in
         systemctl --user restart pipewire-session-manager;
         systemctl --user start pulseaudio;
         show_solver_menu;;
-     3) echo 'Package upgrade';
+     3) cp ./official-package-repositories.pref /etc/apt/preferences.d/
+     4) echo 'Package upgrade';
         apt update && apt upgrade -y;
         show_solver_menu;;
-     4) show_root_menu;;
+     5) show_root_menu;;
      x) echo 'Reboot';
         reboot;;
      q) clear; 
