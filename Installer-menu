@@ -1,6 +1,4 @@
 #!/bin/bash
-# dialog package requirement
-# check for dialog presence and install it if not yet done.
 REQUIRED_PKG="dialog"
 PKG_OK=$(dpkg-query -W --showformat='${Status}\n' $REQUIRED_PKG|grep "install ok installed")
 echo Checking for $REQUIRED_PKG: $PKG_OK
@@ -8,22 +6,23 @@ if [ "" = "$PKG_OK" ]; then
   echo "No $REQUIRED_PKG. Setting up $REQUIRED_PKG."
   apt install -y $REQUIRED_PKG
 fi
-# Installer-menu
+
 show_root_menu(){
 width=72
 height=50
-menu_height=8
+menu_height=9
 backtitle="Installer-menu"
 title="Setup opions"
 menu="Choose one of the following options:"
 
 options=(1 'Add Mint PPA and update' 
          2 'Install Cinnamon '
-         3 'update and upgrade '
-         4 'Additional software installation '
-         5 'Upgrade Kernel '
-         6 'Resolve Ubuntu Cinnamon issues '
-         7 'Install graphic proprietary driver'
+         3 'Upgrade packages'
+         4 'Install and export apt install log'
+         5 'Addition software (dpkg -i)'
+         6 'Upgrade Kernel '
+         7 'Resolve Ubuntu Cinnamon issues '
+         8 'Install graphic proprietary driver'
          x reboot
          q quit )
     
@@ -50,10 +49,11 @@ case "$result" in
         apt update && apt upgrade -y;
         show_root_menu;;
     4)  show_pckg_menu;;
-    5)  sh ubuntu-mainline-kernel.sh;
+    5)  show_dpkg_menu;;
+    6)  sh ubuntu-mainline-kernel.sh;
         show_root_menu;;
-    6)  show_solver_menu;;
-    7)  show_nvidia_menu;;
+    7)  show_solver_menu;;
+    8)  show_nvidia_menu;;
     x)  echo Reboot;
         reboot;;
     q)  clear; 
@@ -92,6 +92,74 @@ case "$result" in
         apt update && apt upgrade -y;
         show_pckg_menu;;
      4) show_root_menu;;
+     x) echo 'Reboot';
+        reboot;;
+     q) clear; 
+        exit ;;
+esac
+}
+show_dpkg_menu(){
+width=72
+height=22
+menu_height=8
+backtitle='Installer-menu'
+title='Package options'
+menu='Choose one of the following options:'
+
+options=(1 'Install eID (deb)'
+         2 'Install Google Chrome (ppa)'
+         3 'Install Unified Remote (deb)'
+         4 'Install wine-devel (arch 32 added) (ppa)'
+         5 'Install Webmin (ppa)'
+         6 'Show root menu'
+         x reboot
+         q quit )
+
+result=$(dialog --clear \
+                --backtitle "$backtitle" \
+                --title "$title" \
+                --menu "$menu" \
+                $height $width $menu_height \
+                "${options[@]}" \
+                2>&1 >/dev/tty)
+
+case "$result" in
+     1) echo 'eID installation';
+        wget https://eid.belgium.be/sites/default/files/software/eid-archive_2022.6_all.deb;
+        dpkg -i eid-archive_2022.6_all.deb;
+        apt update && apt install eid-mw eid-viewer opensc-pkcs11 libpam-pkcs11 pcscd libpcsclite1 pcscd pcsc-tools;
+        service pcscd start;
+        show_dpkg_menu;;
+     2) echo 'Google Chrome installation';
+        wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -;
+	echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list;
+	apt update;
+	apt install google-chrome-stable;
+	apt install -f;
+	apt update;
+	apt upgrade -y;
+	show_dpkg_menu;;
+     3) echo 'Unified Remote installation';
+        wget https://www.unifiedremote.com/download/linux-x64-deb;
+        dpkg -i linux-x64-deb;
+        apt update;
+        apt install -f;
+        show_dpkg_menu;;
+     4) echo 'Wine installation';
+        dpkg --add-architecture i386;
+	mkdir -pm755 /etc/apt/keyrings;
+	wget -O /etc/apt/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key;
+	wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/ubuntu/dists/jammy/winehq-jammy.sources;
+	apt update;
+	apt install --install-recommends winehq-devel;
+	show_dpkg_menu;;
+     5) echo 'Webmin installation';
+        wget https://download.webmin.com/jcameron-key.asc;
+	cat jcameron-key.asc | gpg --dearmor >/etc/apt/trusted.gpg.d/jcameron-key.gpg;
+	echo “deb https://download.webmin.com/download/repository sarge contrib” >> /etc/apt/sources.list;
+	apt update;
+	apt install apt-transport-https webmin;;
+     6) show_root_menu;;
      x) echo 'Reboot';
         reboot;;
      q) clear; 
