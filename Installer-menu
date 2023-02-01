@@ -162,7 +162,7 @@ case "$result" in
 	mv ./jcameron-key.gpg /etc/apt/trusted.gpg.d/;
 	echo 'deb https://download.webmin.com/download/repository sarge contrib' >> /etc/apt/sources.list;
 	apt update;
-	apt install apt-transport-https webmin;;
+	apt install apt-transport-https webmin;
 	show_dpkg_menu;;
      6) show_root_menu;;
      x) echo 'Reboot';
@@ -214,7 +214,7 @@ case "$result" in
         systemctl --user restart pipewire-session-manager;
         systemctl --user start pulseaudio;
         show_solver_menu;;
-     3) cp ./official-package-repositories.pref /etc/apt/preferences.d/
+     3) cp ./official-package-repositories.pref /etc/apt/preferences.d/;
      4) echo 'Package upgrade';
         apt update && apt upgrade -y;
         show_solver_menu;;
