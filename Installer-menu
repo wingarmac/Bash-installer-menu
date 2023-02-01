@@ -157,7 +157,7 @@ case "$result" in
 	show_dpkg_menu;;
      5) echo 'Webmin installation';
         wget -O /etc/apt/keyrings/jcameron-key.key https://download.webmin.com/jcameron-key.asc;
-        gpg --no-default-keyring --keyring jcameron-key.gpg --import jcameron-key.key
+        gpg --no-default-keyring --keyring jcameron-key.gpg --import /etc/apt/keyrings/jcameron-key.key
         gpg --no-default-keyring --keyring jcameron-key.gpg --export > tmp.gpg && mv tmp.gpg jcameron-key.gpg;
 	mv ./jcameron-key.gpg /etc/apt/trusted.gpg.d/;
 	echo 'deb https://download.webmin.com/download/repository sarge contrib' >> /etc/apt/sources.list;
