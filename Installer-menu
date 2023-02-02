@@ -214,7 +214,7 @@ case "$result" in
         systemctl --user restart pipewire-session-manager;
         systemctl --user start pulseaudio;
         show_solver_menu;;
-     3) cp ./official-package-repositories.pref /etc/apt/preferences.d/;
+     3) cp ./official-package-repositories.pref /etc/apt/preferences.d/;;
      4) echo 'Package upgrade';
         apt update && apt upgrade -y;
         show_solver_menu;;
