@@ -20,7 +20,7 @@ options=(1 'Add Mint PPA and update'
          3 'Upgrade packages'
          4 'Install and export apt install log'
          5 'Addition software (dpkg -i)'
-         6 'Upgrade Kernel '
+         6 'Upgrade Kernel (+ REBOOT)'
          7 'Resolve Ubuntu Cinnamon issues '
          8 'Install graphic proprietary driver'
          x reboot
@@ -50,8 +50,9 @@ case "$result" in
         show_root_menu;;
     4)  show_pckg_menu;;
     5)  show_dpkg_menu;;
-    6)  bash ubuntu-mainline-kernel -u;
-        show_root_menu;;
+    6)  bash ubuntu-mainline-kernel -c;
+    	bash ubuntu-mainline-kernel -i;
+        reboot;;
     7)  show_solver_menu;;
     8)  show_nvidia_menu;;
     x)  echo Reboot;
