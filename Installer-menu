@@ -50,7 +50,7 @@ case "$result" in
         show_root_menu;;
     4)  show_pckg_menu;;
     5)  show_dpkg_menu;;
-    6)  bash ubuntu-mainline-kernel;
+    6)  bash ubuntu-mainline-kernel -u;
         show_root_menu;;
     7)  show_solver_menu;;
     8)  show_nvidia_menu;;
