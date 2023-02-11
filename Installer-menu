@@ -130,6 +130,8 @@ case "$result" in
         dpkg -i eid-archive_2022.6_all.deb;
         apt update && apt install eid-mw eid-viewer opensc-pkcs11 libpam-pkcs11 pcscd libpcsclite1 pcscd pcsc-tools;
         service pcscd start;
+	systemctl enable pcscd;
+	systemctl start pcscd;
         show_dpkg_menu;;
      2) echo 'Google Chrome installation';
         wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -;
