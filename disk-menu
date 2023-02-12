@@ -1,0 +1,46 @@
+#!/bin/bash
+width=72
+height=42
+menu_height=20
+backtitle='Disk-menu'
+BLK_ID=$(blkid -o device)
+BLK_VAL=$(blkid -s UUID -o value);
+
+buid=$(paste <(printf %s "$BLK_ID") <(printf %s "$BLK_VAL") )
+# debug
+declare -p buid
+title='Select a disk'
+
+parts=()
+i=0
+while read -r type kname; do
+	if [[ $type == part ]]; then
+		parts[++i]=$kname
+	fi
+done < <(lsblk -rno type,kname)
+total=${#parts[@]}
+
+# debug
+declare -p total parts
+
+pairs=()
+for i in "${!parts[@]}"; do
+	pairs+=("$i" "${parts[i]}")
+done
+
+# debug
+declare -p pairs
+sleep 5
+
+choice=$(
+	dialog \
+		--clear \
+		--stdout \
+		--backtitle "$backtitle" \
+		--title "$title" \
+		--menu "Select volume (numbers 1-$total): " \
+		"$height" "$width" "$menu_height" "${pairs[@]}"
+)
+
+# debug
+declare -p choice
