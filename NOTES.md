@@ -12,4 +12,11 @@
  5. `swapon -U #selected_UID #/dev/$selected `
  6. `update-initramfs -u -k all`
  
+ Usefull links:
+ 
+ - https://mywiki.wooledge.org/BashFAQ/001
+ - https://linux.die.net/man/1/dialog
+ - https://mywiki.wooledge.org/BashFAQ/040
+ - https://unix.stackexchange.com/questions/12858/how-to-change-filesystem-uuid-2-same-uuid
+ - https://serverfault.com/questions/3132/how-do-i-find-the-uuid-of-a-filesystem
  
