@@ -56,8 +56,8 @@ New projects:
 
 **First objectif:** Be able to replace the default swap with selected device
 
-I've a small M.2 drive that is very fast, where I've 2 partitions of approx. 10Gb each on it. The remaining 100Gb is my /srv mount.
-One should be for swap mount and the other for tmp/
+I've a small M.2 drive that is very fast, where I've 2 partitions of approx. 10Gb each on it. The remaining 100Gb is my `/srv` mount.
+One should be for swap mount and the other for `/tmp`
 I would like to have a menu to select it so the settings are prepared to be ready for the next reboot.
 
 **First step:** create a device selection menu 
