@@ -2,6 +2,9 @@
 ---
  - `$buid` : the unmounted device is my swap - Its not listed in this variable
  - I like how its shown - but I should look after another command that list all available partitions with `/dev/` and UUID like blkid
+ - `lsblk --output MOUNTPOINT,UUID`
+    
+
  - After that, I should try to apply it to the current menu choice.
 
 **Commands to process:**
@@ -14,6 +17,7 @@
  
  Usefull links:
  
+ - https://sleeplessbeastie.eu/2021/06/25/how-to-export-block-devices-list-as-json/
  - https://mywiki.wooledge.org/BashFAQ/001
  - https://linux.die.net/man/1/dialog
  - https://mywiki.wooledge.org/BashFAQ/040
