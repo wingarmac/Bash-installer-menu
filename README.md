@@ -48,4 +48,20 @@ What it does:
 
 
 - - -
+**New menu creation : Disk-menu (dev)**
+
+*It will be added afterwards to a submenu of the Installer-menu*
+
+**First objectif:** Be able to replace the default swap with selected device
+
+I've a small M.2 drive that is verry fast, where I've 2 partition of aprox. 10Gb each on it. The left 100Gb is my /srv mount.
+One should be for swap mount and the other for tmp/
+I would like to have a menu to select it so the settings are prepared to be ready for next reboot.
+
+**First step:** create a device selection menu 
+Attempt to create a menu with available drives in order to selected the wanted drive and replace the default swap.
+
+
+
  
+
