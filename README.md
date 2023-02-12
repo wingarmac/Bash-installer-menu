@@ -52,6 +52,8 @@ New projects:
 ---
 **New menu creation : Disk-menu (dev)**
 
+*[Notes](https://github.com/wingarmac/Bash-installer-menu/blob/main/NOTES.md)*
+
 *It will be added afterwards to a submenu of the Installer-menu*
 
 **First objectif:** Be able to replace the default swap with selected device
