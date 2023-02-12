@@ -18,6 +18,11 @@ Attempt to create a menu with available devices in order to select the wanted de
  - `$buid` : the unmounted device is my swap - Its not listed in this variable
  - I like how its shown - but I should look after another command that list all available partitions with `/dev/` and UUID like blkid
  - `lsblk --output MOUNTPOINT,UUID`
+
+    ***Solved with the help of the IRC [#bash](http://mywiki.wooledge.org/BashGuide) Channel***
+    
+    ***Many thanks to all for your help so far especially to the one that did send me the code corrections !!!***
+- - - 
     
 
  - After that, I should try to apply it to the current menu choice.
