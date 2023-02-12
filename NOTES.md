@@ -1,7 +1,7 @@
 **Notes Disk-menu :**
 ---
  - `$buid` : the unmounted device is my swap - Its not listed in this variable
- - I like how its shown - but I should look after another command that list all available partitions with `/dev/` and UUID
+ - I like how its shown - but I should look after another command that list all available partitions with `/dev/` and UUID like blkid
  - After that, I should try to apply it to the current menu choice.
 
 **Commands to process:**
