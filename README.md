@@ -48,6 +48,8 @@ What it does:
 
 
 - - -
+New projects:
+---
 **New menu creation : Disk-menu (dev)**
 
 *It will be added afterwards to a submenu of the Installer-menu*
