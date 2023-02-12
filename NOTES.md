@@ -1,6 +1,6 @@
 **Notes Disk-menu :**
 ---
-**New menu creation : Disk-menu (dev)**
+**New menu creation : [Disk-menu](https://github.com/wingarmac/Bash-installer-menu/blob/main/disk-menu) (dev)**
 - - -
 *It will be added afterwards to a submenu of the Installer-menu*
 
