@@ -59,6 +59,7 @@ One should be for swap mount and the other for tmp/
 I would like to have a menu to select it so the settings are prepared to be ready for the next reboot.
 
 **First step:** create a device selection menu 
+
 Attempt to create a menu with available devices in order to select the wanted device and replace the default swap.
 
 
