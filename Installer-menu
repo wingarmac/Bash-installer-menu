@@ -7,7 +7,7 @@ if [ "" = "$PKG_OK" ]; then
   apt install -y $REQUIRED_PKG
 fi
 json="36.json"
-tgdr="$HOME/.config/cinnamon/spices/calendar@cinnamon.org/"
+tgdr="/home/wingarmac/.config/cinnamon/spices/calendar@cinnamon.org/"
 show_root_menu(){
 width=72
 height=50
