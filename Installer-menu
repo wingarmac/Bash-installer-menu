@@ -6,7 +6,8 @@ if [ "" = "$PKG_OK" ]; then
   echo "No $REQUIRED_PKG. Setting up $REQUIRED_PKG."
   apt install -y $REQUIRED_PKG
 fi
-tmfmt=cp 36.json ~/.config/cinnamon/spices/calendar@cinnamon.org/
+json="36.json"
+tgdr="$HOME/.config/cinnamon/spices/calendar@cinnamon.org/"
 show_root_menu(){
 width=72
 height=50
@@ -59,7 +60,7 @@ case "$result" in
         reboot;;
     7)  show_solver_menu;;
     8)  show_nvidia_menu;;
-    9)	tmfmt;
+    9)	cp "$json" "$tgdr";
     	echo 'done';
 	sleep 3;
     	show_root_menu;;
