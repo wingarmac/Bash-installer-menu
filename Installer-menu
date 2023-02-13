@@ -6,7 +6,7 @@ if [ "" = "$PKG_OK" ]; then
   echo "No $REQUIRED_PKG. Setting up $REQUIRED_PKG."
   apt install -y $REQUIRED_PKG
 fi
-
+tmfmt=cp 36.json ~/.config/cinnamon/spices/calendar@cinnamon.org/
 show_root_menu(){
 width=72
 height=50
@@ -23,7 +23,7 @@ options=(1 'Add Mint PPA and update'
          6 'Upgrade Kernel (+ REBOOT)'
          7 'Resolve Ubuntu Cinnamon issues '
          8 'Install graphic proprietary driver'
-	 9 'Personal time format setting (testing)'
+	 9 'Personal setting for time format in taskbar'
          x reboot
          q quit )
     
@@ -59,9 +59,9 @@ case "$result" in
         reboot;;
     7)  show_solver_menu;;
     8)  show_nvidia_menu;;
-    9)	(cp 36.json /home/wingarmac/.config/cinnamon/spices/calendar@cinnamon.org/);
-    	echo 'done";
-	sleep 3;;
+    9)	tmfmt;
+    	echo 'done';
+	sleep 3;
     	show_root_menu;;
     x)  echo Reboot;
         reboot;;
