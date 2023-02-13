@@ -3,12 +3,7 @@ width=72
 height=42
 menu_height=20
 backtitle='Disk-menu'
-BLK_ID=$(blkid -o device)
-BLK_VAL=$(blkid -s UUID -o value);
 
-buid=$(paste <(printf %s "$BLK_ID") <(printf %s "$BLK_VAL") )
-# debug
-declare -p buid
 title='Select a disk'
 
 parts=()
@@ -20,7 +15,7 @@ while read -r type kname uuid; do
 		uuids[i]=$uuid
 		i=$((i + 1))
 	fi
-done < <(lsblk -rno type,kname,uuid)
+done < <(lsblk -rno type,mountpoint,kname,uuid)
 
 pairs=()
 for i in "${!parts[@]}"; do
