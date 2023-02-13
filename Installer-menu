@@ -169,7 +169,7 @@ case "$result" in
 	mv ./wine*.gpg /etc/apt/trusted.gpg.d/
 	wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/ubuntu/dists/jammy/winehq-jammy.sources;
 	apt-get update | dialog --progressbox 30 100;
-	apt-get install -y --install-recommends winehq-devel | dialog --progressbox 30 100;;
+	apt-get install -y --install-recommends winehq-devel | dialog --progressbox 30 100;
 	show_dpkg_menu;;
      5) echo 'Webmin installation';
         wget -O /etc/apt/keyrings/jcameron-key.key https://download.webmin.com/jcameron-key.asc;
