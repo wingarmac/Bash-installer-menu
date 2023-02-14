@@ -60,7 +60,8 @@ case "$result" in
         reboot;;
     7)  show_solver_menu;;
     8)  show_nvidia_menu;;
-    9)	cp "$json" "$tgdr" | dialog --msgbox 'Job done!' 6 20;
+    9)	cp "$json" "$tgdr" | dialog	--title 'Time format' \
+    					--msgbox 'settings applied!' 8 23;
     	show_root_menu;;
     x)  echo Reboot;
         reboot;;
