@@ -2,7 +2,7 @@
 ---
 **New menu creation : [Disk-menu](https://github.com/wingarmac/Bash-installer-menu/blob/main/disk-menu) (dev)**
 - - -
-![image](https://user-images.githubusercontent.com/78303089/218315446-2e8d0afa-56ff-4f2f-acee-d3ed09e627c5.png)
+![image](https://i.ibb.co/qxxnYRR/Screenshot-from-2023-02-16-00-41-55.png)
 
 
 *It will be added afterwards to a submenu of the Installer-menu*
