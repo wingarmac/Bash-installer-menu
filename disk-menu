@@ -1,33 +1,78 @@
 #!/bin/bash
-width=72
-height=42
+
+# Allows to read from the end of a pipeline without the data 'disappearing'.
+# Explained further at http://mywiki.wooledge.org/BashFAQ/024, if you dare.
+shopt -s lastpipe
+
+width=120
+height=40
 menu_height=20
 backtitle='Disk-menu'
-
 title='Select a disk'
 
-parts=()
-uuids=()
-i=1
-while read -r type kname uuid; do
-	if [[ $type == part ]]; then
-		parts[i]=$kname
-		uuids[i]=$uuid
-		i=$((i + 1))
-	fi
-done < <(lsblk -rno type,mountpoint,kname,uuid)
+# Will store the menu numbers and (nicely formatted) lsblk lines as pairs.
+# Later given to dialog as individual arguments.
+choices=()
 
-pairs=()
-for i in "${!parts[@]}"; do
-	pairs+=("$i" "${parts[i]} ${uuids[i]}")
+# Arrays to store the properties of a device according to a particular lsblk
+# field.  At the very least, one needs to be able to look up the kname from the
+# choice number.
+knames=()
+uuids=()
+mountpoints=()
+sizes=()
+
+# Array indexes normally start from 0 in bash but, for the benefit of dialog,
+# let's start from 1.
+i=1
+
+# This is a three part pipeline. The third part is the while loop.
+lsblk -rno type,kname,uuid,mountpoint,size |
+column -t -s ' ' |
+while read -r line; do
+	# We just read the (nicely formatted) line. Now split the line into
+	# individual fields, assigning to bash variables.
+	echo "$line" | read -r type kname uuid mountpoint size
+
+	if [[ $type != part ]]; then
+		# It's not a partition. Proceed directly to the next line.
+		continue
+	fi
+
+	# Insert the line into the choices array for later use by dialog. Note that
+	# two items are being appended to the array - the index number and the line
+	# itself.
+	choices+=("$i" "$line")
+
+	# Stash the fields so that they be later looked up by the choice number.
+	knames[i]=$kname
+	uuids[i]=$uuid
+	sizes[i]=$size
+
+	# The mountpoint column output by lsblk may contain backslash-escape
+	# sequences. This happens when the mountpoint contains whitespace or other
+	# unusual characters. bash is able to decode properly with printf.
+	mountpoints[i]=$(printf %b "$mountpoint")
+
+	# Increment the index number for the next added device, if any.
+	i=$((i + 1))
 done
-choice=$(
+
+i=$(
 	dialog \
 		--clear \
 		--stdout \
 		--backtitle "$backtitle" \
 		--title "$title" \
-		--menu "Select volume (numbers 1-$total): " \
-		"$height" "$width" "$menu_height" "${pairs[@]}"
+		--menu "Select volume (numbers 1-${#knames[@]}): " \
+		"$height" "$width" "$menu_height" "${choices[@]}"
 )
-declare -p choice
+
+# Check whether i is empty, indicating that no choice was made.
+if [[ ! $i ]]; then
+	echo "No partition was selected. Aborting" >&2
+	exit 1
+fi
+
+# Can also reference the mountpoints and uuids array from hereon, also.
+echo "You selected ${knames[i]}, which has a size of ${sizes[i]}"
