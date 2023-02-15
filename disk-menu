@@ -64,7 +64,7 @@ i=$(
 		--stdout \
 		--backtitle "$backtitle" \
 		--title "$title" \
-		--menu "Select volume (numbers 1-${#knames[@]}): " \
+		--menu "Select partition (1-${#knames[@]}): " \
 		"$height" "$width" "$menu_height" "${choices[@]}"
 )
 
