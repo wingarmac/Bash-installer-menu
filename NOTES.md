@@ -1,107 +1,48 @@
-#!/bin/bash
-
-# Allows to read from the end of a pipeline without the data 'disappearing'.
-# Explained further at http://mywiki.wooledge.org/BashFAQ/024, if you dare.
-shopt -s lastpipe
-
-width=120
-height=40
-menu_height=20
-backtitle='Disk-menu'
-title='Device selection'
-
-# Will store the menu numbers and (nicely formatted) lsblk lines as pairs.
-# Later given to dialog as individual arguments.
-choices=()
-
-# Arrays to store the properties of a device according to a particular lsblk
-# field.  At the very least, one needs to be able to look up the kname from the
-# choice number.
-knames=()
-uuids=()
-mountpoints=()
-sizes=()
-
-# Array indexes normally start from 0 in bash but, for the benefit of dialog,
-# let's start from 1.
-i=1
-
-# This is a three part pipeline. The third part is the while loop.
-lsblk -rno type,kname,uuid,mountpoint,size |
-column -t -s ' ' |
-while read -r line; do
-	# We just read the (nicely formatted) line. Now split the line into
-	# individual fields, assigning to bash variables.
-	echo "$line" | read -r type kname uuid mountpoint size
-
-	if [[ $type != part ]]; then
-		# It's not a partition. Proceed directly to the next line.
-		continue
-	fi
-
-	# Insert the line into the choices array for later use by dialog. Note that
-	# two items are being appended to the array - the index number and the line
-	# itself.
-	choices+=("$i" "$line")
-
-	# Stash the fields so that they be later looked up by the choice number.
-	knames[i]=$kname
-	uuids[i]=$uuid
-	sizes[i]=$size
-
-	# The mountpoint column output by lsblk may contain backslash-escape
-	# sequences. This happens when the mountpoint contains whitespace or other
-	# unusual characters. bash is able to decode properly with printf.
-	mountpoints[i]=$(printf %b "$mountpoint")
-
-	# Increment the index number for the next added device, if any.
-	i=$((i + 1))
-done
-
-i=$(
-	dialog \
-		--clear \
-		--stdout \
-		--backtitle "$backtitle" \
-		--title "$title" \
-		--menu "Select partition (1-${#knames[@]}): " \
-		"$height" "$width" "$menu_height" "${choices[@]}"
-)
-
-# Check whether i is empty, indicating that no choice was made.
-if [[ ! $i ]]; then
-	echo "No partition was selected. Aborting" >&2
-	exit 1
-fi
-
-#################################################################################
-# This is based on a copy of fstab in the script folder 
-# It still needs to be set to /etc/fstab
-
-# Swap installation - Replacement of default swap
-
-# Detect if mounted goto error prompt
-# I still need to implement this.
-# echo the partition selected is already mounted
+**Notes Disk-menu :**
+---
+**New menu creation : [Disk-menu](https://github.com/wingarmac/Bash-installer-menu/blob/main/disk-menu) (dev)**
+- - -
+![image](https://i.ibb.co/qxxnYRR/Screenshot-from-2023-02-16-00-41-55.png)
 
 
-# fstab backup
-# cp -v /etc/fstab /etc/fstab.backup
+*It will be added afterwards to a submenu of the Installer-menu*
 
-# Replacement of default swap in fstab:
-ID="UUID=${uuid}"
-MP="${ID} none	swap	swap	0	0"
-sed -i "/swap/c $MP" fstab
+**First objectif:** Be able to replace the default swap with selected device
 
-# Create /etc/initramfs-tools/conf.d/resume file  
-printf "RESUME=$ID\n" > resume # This should add a new line instead, if the file already exists.
+I've a small M.2 drive that is very fast, where I've 2 partitions of approx. 10Gb each on it. The remaining 100Gb is my `/srv` mount.
+One should be for swap mount and the other for `/tmp`
+I would like to have a menu to select it so the settings are prepared to be ready for the next reboot.
 
-# exec '/sbin/mkswap /dev/$kname'
-echo "/sbin/mkswap /dev/$kname"
+**First step:** create a device selection menu 
 
-# swapon -U #UUID #/dev/$kname
-echo "swapon -U $UUID /dev/$kname"
+Attempt to create a menu with available devices in order to select the wanted device and replace the default swap.
 
-# update-initramfs -u -k all 
-echo update-initramfs -u -k all
+---
+ - `$buid` : the unmounted device is my swap - Its not listed in this variable
+ - I like how its shown - but I should look after another command that list all available partitions with `/dev/` and UUID like blkid
+ - `lsblk --output MOUNTPOINT,UUID`
 
+    ***Solved with the help of the IRC [#bash](http://mywiki.wooledge.org/BashGuide) Channel***
+    
+    ***Many thanks to all for your help so far especially to the one that did send me the code corrections !!!***
+- - - 
+    
+
+ - After that, I should try to apply it to the current menu choice.
+
+**Commands to process:**
+ 1. Check how to stop on error (if one of these steps do not work it should stop to be able to verify and create necessary partitions)
+ 2. Check for how to delete line with swp string and add line with swp string in fstab refering to the selected device
+ 3. create `/etc/initramfs-tools/conf.d/resume` file needed entries for selected devices
+ 4. `/sbin/mkswap /dev/$selected`
+ 5. `swapon -U #selected_UID #/dev/$selected `
+ 6. `update-initramfs -u -k all`
+ 
+ **References:**
+ 
+ - https://sleeplessbeastie.eu/2021/06/25/how-to-export-block-devices-list-as-json/
+ - https://mywiki.wooledge.org/BashFAQ/001
+ - https://linux.die.net/man/1/dialog
+ - https://mywiki.wooledge.org/BashFAQ/040
+ - https://unix.stackexchange.com/questions/12858/how-to-change-filesystem-uuid-2-same-uuid
+ - https://serverfault.com/questions/3132/how-do-i-find-the-uuid-of-a-filesystem
