@@ -126,7 +126,9 @@ case "$result" in
 		 ID : ${uuids[i]} 
 		 "$ID" " 10 50;;
      	# For the unmounted partition: (option 2)
-     	# No size and no UUID shown.
+     	# Size shown at the wrong place.
+	# Last update needs to be tested on another
+	# configuration with an unmounted partition
      	##################################################
      3) echo test;;
      	# cfdisk /dev/"$knames" > debug.txt;;
