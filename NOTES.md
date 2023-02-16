@@ -42,6 +42,7 @@ Attempt to create a menu with available devices in order to select the wanted de
  
  - https://www.binarytides.com/linux-command-check-disk-partitions/
  - https://sleeplessbeastie.eu/2021/06/25/how-to-export-block-devices-list-as-json/
+ - https://stackoverflow.com/questions/11245144/replace-whole-line-containing-a-string-using-sed
  - https://mywiki.wooledge.org/BashFAQ/001
  - https://linux.die.net/man/1/dialog
  - https://mywiki.wooledge.org/BashFAQ/040
