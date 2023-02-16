@@ -37,7 +37,7 @@ column -t -s ' ' |
 while read -r line; do
 	# We just read the (nicely formatted) line. Now split the line into
 	# individual fields, assigning to bash variables.
-	echo "$line" | read -r type kname uuid mountpoint size
+	echo "$line" | read -r type kname uuid size mountpoint
 
 	if [[ $type != part ]]; then
 		# It's not a partition. Proceed directly to the next line.
@@ -51,14 +51,19 @@ while read -r line; do
 
 	# Stash the fields so that they be later looked up by the choice number.
 	knames[i]=$kname
-	uuids[i]=$uuid
-	sizes[i]=$size
+        uuids[i]=$uuid
 
-	# The mountpoint column output by lsblk may contain backslash-escape
-	# sequences. This happens when the mountpoint contains whitespace or other
-	# unusual characters. bash is able to decode properly with printf.
-	mountpoints[i]=$(printf %b "$mountpoint")
-
+        if [[ -z "$size" ]]; then
+                sizes[i]=$mountpoint
+                mountpoints[i]="<none>"
+        else
+                sizes[i]=$size
+                # The mountpoint column output by lsblk may contain backslash-escape
+                # sequences. This happens when the mountpoint contains whitespace or other
+                # unusual characters. bash is able to decode properly with printf.
+                mountpoints[i]=$(printf %b "$mountpoint")
+        fi
+	
 	# Increment the index number for the next added device, if any.
 	i=$((i + 1))
 done
@@ -78,7 +83,8 @@ if [[ ! $i ]]; then
 	echo "No partition was selected. Aborting" >&2
 	exit 1
 fi
-echo "You selected ${knames[i]}, which has a size of ${sizes[i]}"
+# dialog	--title "You selected ${knames[i]}" \
+#	--msgbox "Which has a size of ${sizes[i]}" 10 30;
 
 width=120
 height=40
@@ -87,12 +93,13 @@ backtitle='Disk-menu'
 title='Device selection'
 menu='Choose one of the following options:'
 
-ID="UUID=${uuid}"
-MP="${ID} none	swap	swap	0	0"
+ID="UUID=${uuids[i]}"
+MP="$ID none	swap	swap	0	0"
 
 options=(1 'Replacement of default swap'
-         2 'Partitioning tool cfdisk'
-         3 'Unmount partition'
+         2 'Show current partition info'
+         3 'Partitioning tool cfdisk'
+         4 'Unmount partition'
          x reboot
          q quit )
 
@@ -107,16 +114,25 @@ result=$(dialog --clear \
 case "$result" in
      1) echo 'Replacement of swap';
 	cp -v /etc/fstab /etc/fstab.backup;
-	sed -i "/swap/c $MP" fstab;
+	sed -i /swap/c "${MP[i]}" fstab;
 	printf 'RESUME=%s\n' "$ID" > resume;
-	echo "/sbin/mkswap /dev/$kname";
-	echo "swapon -U $uuid /dev/$kname";
+	echo "/sbin/mkswap /dev/""${kname[i]}""";
+	echo "swapon -U ""${uuid[i]}"" /dev/""${kname[i]}""";
 	echo update-initramfs -u -k all;;
-     2) cfdisk /dev/"$kname";;
-     3) umount "$mountpoint";;
+     2) dialog	--title "Selected device: ${knames[i]}" \
+		--msgbox "Here's a list of variables
+		 Mountpoint	: ${mountpoints[i]} 
+		 Size		: ${sizes[i]}
+		 ID : ${uuids[i]} 
+		 "$ID" " 10 50;;
+     	# For the unmounted partition: (option 2)
+     	# No size and no UUID shown.
+     	##################################################
+     3) echo test;;
+     	# cfdisk /dev/"$knames" > debug.txt;;
+     4) umount "/dev/""${kname[i]}""";;
      x) echo 'Reboot';
         reboot;;
      q) clear; 
         exit ;;
 esac
-
