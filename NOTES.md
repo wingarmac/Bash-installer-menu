@@ -40,6 +40,7 @@ Attempt to create a menu with available devices in order to select the wanted de
  
  **References:**
  
+ - https://www.binarytides.com/linux-command-check-disk-partitions/
  - https://sleeplessbeastie.eu/2021/06/25/how-to-export-block-devices-list-as-json/
  - https://mywiki.wooledge.org/BashFAQ/001
  - https://linux.die.net/man/1/dialog
