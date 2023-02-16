@@ -1,14 +1,19 @@
 #!/bin/bash
+REQUIRED_PKG="dialog"
+PKG_OK=$(dpkg-query -W --showformat='${Status}\n' $REQUIRED_PKG|grep "install ok installed")
+echo Checking for $REQUIRED_PKG: "$PKG_OK"
+if [ "" = "$PKG_OK" ]; then
+  echo "No $REQUIRED_PKG. Setting up $REQUIRED_PKG."
+  apt install -y $REQUIRED_PKG
+fi
 
-# Allows to read from the end of a pipeline without the data 'disappearing'.
-# Explained further at http://mywiki.wooledge.org/BashFAQ/024, if you dare.
 shopt -s lastpipe
-
 width=120
 height=40
 menu_height=20
 backtitle='Disk-menu'
-title='Select a disk'
+title='Device selection'
+
 
 # Will store the menu numbers and (nicely formatted) lsblk lines as pairs.
 # Later given to dialog as individual arguments.
@@ -73,6 +78,45 @@ if [[ ! $i ]]; then
 	echo "No partition was selected. Aborting" >&2
 	exit 1
 fi
-
-# Can also reference the mountpoints and uuids array from hereon, also.
 echo "You selected ${knames[i]}, which has a size of ${sizes[i]}"
+
+width=120
+height=40
+menu_height=10
+backtitle='Disk-menu'
+title='Device selection'
+menu='Choose one of the following options:'
+
+ID="UUID=${uuid}"
+MP="${ID} none	swap	swap	0	0"
+
+options=(1 'Replacement of default swap'
+         2 'Partitioning tool cfdisk'
+         3 'Unmount partition'
+         x reboot
+         q quit )
+
+result=$(dialog --clear \
+                --backtitle "$backtitle" \
+                --title "$title" \
+                --menu "$menu" \
+                "$height" "$width" "$menu_height" \
+                "${options[@]}" \
+                2>&1 >/dev/tty)
+
+case "$result" in
+     1) echo 'Replacement of swap';
+	cp -v /etc/fstab /etc/fstab.backup;
+	sed -i "/swap/c $MP" fstab;
+	printf 'RESUME=%s\n' "$ID" > resume;
+	echo "/sbin/mkswap /dev/$kname";
+	echo "swapon -U $uuid /dev/$kname";
+	echo update-initramfs -u -k all;;
+     2) cfdisk /dev/"$kname";;
+     3) umount "$mountpoint";;
+     x) echo 'Reboot';
+        reboot;;
+     q) clear; 
+        exit ;;
+esac
+
