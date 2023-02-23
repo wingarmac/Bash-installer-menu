@@ -137,37 +137,36 @@ result=$(dialog --clear \
 
 case "$result" in
      1) echo 'eID installation';
-        wget https://eid.belgium.be/sites/default/files/software/eid-archive_2022.6_all.deb;
+        clear;
+	wget https://eid.belgium.be/sites/default/files/software/eid-archive_2022.6_all.deb;
         dpkg -i eid-archive_2022.6_all.deb;
         apt-get update | dialog --progressbox 30 100;
-	sleep 3;
 	apt-get install -y eid-mw eid-viewer opensc-pkcs11 libpam-pkcs11 pcscd libpcsclite1 pcscd pcsc-tools | dialog --progressbox 30 100;
-	sleep 3;
-        service pcscd start;
+	clear;
+	service pcscd start;
 	systemctl enable pcscd;
 	systemctl start pcscd;
         show_dpkg_menu;;
      2) echo 'Google Chrome installation';
+     	clear;
         wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -;
 	echo 'deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main' >> /etc/apt/sources.list.d/google.list;
 	apt-get update | dialog --progressbox 30 100;
-	sleep 3;
 	apt-get install google-chrome-stable | dialog --progressbox 30 100;
 	apt-get install -f | dialog --progressbox 30 100;
 	apt-get update | dialog --progressbox 30 100;
 	apt-get upgrade -y | dialog --progressbox 30 100;
-	sleep 3;
 	show_dpkg_menu;;
      3) echo 'Unified Remote installation';
-        wget https://www.unifiedremote.com/download/linux-x64-deb;
+        clear;
+	wget https://www.unifiedremote.com/download/linux-x64-deb;
         dpkg -i linux-x64-deb | dialog --progressbox 30 100;
-	sleep 3;
-        apt-get update | dialog --progressbox 30 100;
+	apt-get update | dialog --progressbox 30 100;
         apt-get install -f | dialog --progressbox 30 100;
-	sleep 3;
-        show_dpkg_menu;;
+	show_dpkg_menu;;
      4) echo 'Wine installation';
-        dpkg --add-architecture i386;
+        clear;
+	dpkg --add-architecture i386;
 	wget -O /etc/apt/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key;
 	gpg --no-default-keyring --keyring winehq-archive.gpg --export > tmp.gpg && mv tmp.gpg winehq-archive.gpg
 	gpg --no-default-keyring --keyring winehq.gpg --export > tmp.gpg && mv tmp.gpg winehq.gpg
@@ -177,8 +176,9 @@ case "$result" in
 	apt-get install -y --install-recommends winehq-devel | dialog --progressbox 30 100;
 	show_dpkg_menu;;
      5) echo 'Webmin installation';
-        curl -o setup-repos.sh https://raw.githubusercontent.com/webmin/webmin/master/setup-repos.sh;
-	sh setup-repos.sh | dialog --progressbox 30 100;
+        clear;
+	curl -o setup-repos.sh https://raw.githubusercontent.com/webmin/webmin/master/setup-repos.sh;
+	sh setup-repos.sh;
 	apt-get update | dialog --progressbox 30 100;
 	apt-get install -y apt-transport-https webmin | dialog --progressbox 30 100;
 	echo 'done !' | dialog --msgbox 10 20;
