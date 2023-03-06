@@ -78,11 +78,11 @@ show_cinn_install() {
     local msgbox='Installation complete'
 
     # Mark unwanted packages as manually installed
-    apt-mark manual tillix vim gnome-games pidgin thunderbird libreoffice* firefox ubuntu-session ubuntu-desktop ubunt
+    apt-mark manual tillix vim gnome-games pidgin thunderbird libreoffice* firefox ubuntu-session ubuntu-desktop
 
     # Install Cinnamon desktop environment and other preferred packages
     apt-get update | dialog --progressbox 30 100;
-    apt-get --assume-yes install slick-greeter muffin cinnamon numlockx gnome-console gnome-text-editor gnome-terminal gedit dbus-x11 gparted gnome-disk-utility | dialog --progressbox 30 100;
+    apt-get --assume-yes install slick-greeter muffin cinnamon numlockx gnome-console gnome-software gimp inkscape eog gnome-text-editor gnome-system-monitor psensor gnome-terminal gedit dbus-x11 gparted gnome-disk-utility | dialog --progressbox 30 100;
 
     dialog --backtitle "$backtitle" --title "$title" --msgbox "$msgbox" $height $width
 
@@ -119,7 +119,7 @@ result=$(dialog --clear \
                 2>&1 >/dev/tty)
 
 case "$result" in
-     1) echo 'Package Install';
+     1) echo 'Custom Cinnamon install';
         show_cinn_install;;
      2) echo 'Manualy installed packages exported';
         sh pkgsexport.sh;;
