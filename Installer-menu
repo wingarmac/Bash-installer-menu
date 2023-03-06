@@ -69,6 +69,23 @@ case "$result" in
         exit ;;
 esac
 }
+show_cinn_install() {
+    local width=72
+    local height=22
+    local menu_height=10
+    local backtitle='Custom Cinnamon desktop environment installer'
+    local title='Cinnamon installation'
+    local msgbox='Installation complete'
+
+    # Mark unwanted packages as manually installed
+    apt-mark manual tillix vim gnome-games pidgin thunderbird libreoffice* firefox ubuntu-session ubuntu-desktop ubuntu-gnome-desktop ubuntu-mate-desktop ubuntu-budgie-desktop ubuntu-kylin-desktop ubuntu-mate-cloudtop*
+
+    # Install Cinnamon desktop environment and other preferred packages
+    apt-get update
+    apt-get install slick-greeter muffin cinnamon gnome-terminal gedit google-chrome-stable gparted gnome-disk-utility ubuntu-system-adjustments
+
+    dialog --backtitle "$backtitle" --title "$title" --msgbox "$msgbox" $height $width
+}
 show_pckg_menu(){
 width=72
 height=22
@@ -94,7 +111,7 @@ result=$(dialog --clear \
 
 case "$result" in
      1) echo 'Package Install';
-        sh installpkgs.sh;;
+        show_cinn_install;;
      2) echo 'Manualy installed packages exported';
         sh pkgsexport.sh;;
      3) echo 'Package upgrade';
