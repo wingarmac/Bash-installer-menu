@@ -180,7 +180,7 @@ case "$result" in
 	apt-get update | dialog --progressbox 30 100;
 	apt-get install google-chrome-stable | dialog --progressbox 30 100;
 	apt-get install -f | dialog --progressbox 30 100;
-	apt-get update | dialog --progressbox 30 100;
+	apt-get update -y | dialog --progressbox 30 100;
 	apt-get upgrade -y | dialog --progressbox 30 100;
 	show_dpkg_menu;;
      3) echo 'Unified Remote installation';
@@ -198,7 +198,7 @@ case "$result" in
 	gpg --no-default-keyring --keyring winehq.gpg --export > tmp.gpg && mv tmp.gpg winehq.gpg
 	mv ./wine*.gpg /etc/apt/trusted.gpg.d/
 	wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/ubuntu/dists/jammy/winehq-jammy.sources;
-	apt-get update | dialog --progressbox 30 100;
+	apt-get update -y | dialog --progressbox 30 100;
 	apt-get install -y --install-recommends winehq-devel | dialog --progressbox 30 100;
 	show_dpkg_menu;;
      5) echo 'Webmin installation';
@@ -206,7 +206,7 @@ case "$result" in
 	curl -o /tmp/jcameron-key.asc https://download.webmin.com/jcameron-key.asc;
         gpg --no-default-keyring --keyring /usr/share/keyrings/webmin-keyring.gpg --import /tmp/jcameron-key.asc;
         sh -c 'echo "deb [signed-by=/usr/share/keyrings/webmin-keyring.gpg] https://download.webmin.com/download/repository sarge contrib" | sudo tee /etc/apt/sources.list.d/webmin.list';
-        apt-get update | dialog --progressbox 30 100;
+        apt-get update -y | dialog --progressbox 30 100;
 	apt-get install webmin | dialog --progressbox 30 100;
 	show_dpkg_menu;;
      6) show_root_menu;;
