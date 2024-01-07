@@ -47,26 +47,7 @@ What it does:
 
 `sudo ./Installer-menu`
 
-
-
 - - -
-New projects:
----
-**New menu creation : Disk-menu (dev)**
-
-*[Notes](https://github.com/wingarmac/Bash-installer-menu/blob/main/NOTES.md)*
-
-*It will be added afterwards to a submenu of the Installer-menu*
-
-**First objectif:** Be able to replace the default swap with selected device
-
-I've a small M.2 drive that is very fast, where I've 2 partitions of approx. 10Gb each on it. The remaining 100Gb is my `/srv` mount.
-One should be for swap mount and the other for `/tmp`
-I would like to have a menu to select it so the settings are prepared to be ready for the next reboot.
-
-**First step:** create a device selection menu 
-
-Attempt to create a menu with available devices in order to select the wanted device and replace the default swap.
 
 
 
