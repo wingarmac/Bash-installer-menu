@@ -48,6 +48,17 @@ What it does:
 `sudo ./Installer-menu`
 
 - - -
+**Without dialog - pure bash menu**
+---
+
+`~/Bash-installer-menu# cd bash-installer`
+
+`~/Bash-installer-menu/bash-installer# chmod +x *.sh`
+
+`~/Bash-installer-menu/bash-installer# ./main.sh`
+
+- - -
+[Based on manual installation steps documented here.](https://docs.google.com/document/d/1jPKWW9_efIwWNrUAVw1k8QBPWEM6sSRdjG1YeyKL_Dc/edit?usp=sharing)
 
 
 
