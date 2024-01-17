@@ -5,7 +5,7 @@ options=(
     "Update and Upgrade"
     "Install Desktop Environment"
     "Install Graphics Drivers"
-    "Resolve Desktop Applet Issue"
+    "Resolve Network Applet Issue"
     "Third-Party Software Installation"
     "Exit"
 )
