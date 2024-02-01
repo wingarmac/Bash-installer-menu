@@ -5,6 +5,7 @@ echo "1. Install Google Chrome"
 echo "2. Install Webmin"
 echo "3. Install BeID"
 echo "4. Install Unified Remote"
+echo "5. Install Steam Launcher"
 echo "0. Back to main menu"
 
 read -p "Enter your choice: " choice
@@ -36,6 +37,10 @@ case $choice in
         sudo dpkg -i linux-x64-deb
         sudo apt-get update -y
         sudo apt-get install -f -y
+        ;;
+    5)
+        # Commands to install Steam Launcher
+        source steam.sh
         ;;
     0)
         echo "Returning to main menu..."
