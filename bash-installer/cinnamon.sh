@@ -11,7 +11,7 @@ case $choice in
     sudo apt install -y xorg slick-greeter lightdm-settings mutter muffin cinnamon yaru-theme-icon oxygen-cursor-theme gnome-software numlockx
     ;;
   2)
-    sudo apt install -y mutter lightdm-wayland-session yaru-theme-icon oxygen-cursor-theme gnome-software
+    sudo apt install -y wayland-protocols libwayland* mutter slick-greeter yaru-theme-icon oxygen-cursor-theme gnome-software
     ;;
   *)
     echo "Invalid choice."
