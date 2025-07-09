@@ -174,15 +174,17 @@ case "$result" in
 	systemctl start pcscd;
         show_dpkg_menu;;
      2) echo 'Google Chrome installation';
-     	clear;
-        wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo apt-key add -;
-	echo 'deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main' >> /etc/apt/sources.list.d/google.list;
-	apt-get update | dialog --progressbox 30 100;
-	apt-get install google-chrome-stable | dialog --progressbox 30 100;
-	apt-get install -f | dialog --progressbox 30 100;
-	apt-get update -y | dialog --progressbox 30 100;
-	apt-get upgrade -y | dialog --progressbox 30 100;
-	show_dpkg_menu;;
+        clear;
+        # Replaced deprecated apt-key add with modern gpg --dearmor method
+        wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo gpg --dearmor -o /usr/share/keyrings/google-chrome-archive-keyring.gpg;
+        # Replaced '>>' with 'tee' for safe writing with sudo, and added signed-by
+        echo 'deb [arch=amd64 signed-by=/usr/share/keyrings/google-chrome-archive-keyring.gpg] http://dl.google.com/linux/chrome/deb/ stable main' | sudo tee /etc/apt/sources.list.d/google.list >/dev/null;
+        apt-get update | dialog --progressbox 30 100;
+        apt-get install google-chrome-stable | dialog --progressbox 30 100;
+        apt-get install -f | dialog --progressbox 30 100;
+        apt-get update -y | dialog --progressbox 30 100;
+        apt-get upgrade -y | dialog --progressbox 30 100;
+        show_dpkg_menu;;
      3) echo 'Unified Remote installation';
         clear;
 	wget https://www.unifiedremote.com/download/linux-x64-deb;
