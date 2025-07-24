@@ -162,59 +162,60 @@ result=$(dialog --clear \
                 2>&1 >/dev/tty)
 
 case "$result" in
-     1) echo 'eID installation';
+     1)
+        echo 'eID installation';
         clear;
-	wget https://eid.belgium.be/sites/default/files/software/eid-archive_2022.6_all.deb;
+        wget https://eid.belgium.be/sites/default/files/software/eid-archive_2022.6_all.deb;
         dpkg -i eid-archive_2022.6_all.deb;
         apt-get update | dialog --progressbox 30 100;
-	apt-get install -y eid-mw eid-viewer opensc-pkcs11 libpam-pkcs11 pcscd libpcsclite1 pcscd pcsc-tools | dialog --progressbox 30 100;
-	clear;
-	service pcscd start;
-	systemctl enable pcscd;
-	systemctl start pcscd;
+        apt-get install -y eid-mw eid-viewer opensc-pkcs11 libpam-pkcs11 pcscd libpcsclite1 pcscd pcsc-tools | dialog --progressbox 30 100;
+        service pcscd start;
+        systemctl enable pcscd;
+        systemctl start pcscd;
         show_dpkg_menu;;
-     2) echo 'Google Chrome installation';
+     2)
+        echo 'Google Chrome installation';
         clear;
-        # Replaced deprecated apt-key add with modern gpg --dearmor method
         wget -q -O - https://dl.google.com/linux/linux_signing_key.pub | sudo gpg --dearmor -o /usr/share/keyrings/google-chrome-archive-keyring.gpg;
-        # Replaced '>>' with 'tee' for safe writing with sudo, and added signed-by
-        echo 'deb [arch=amd64 signed-by=/usr/share/keyrings/google-chrome-archive-keyring.gpg] http://dl.google.com/linux/chrome/deb/ stable main' | sudo tee /etc/apt/sources.list.d/google.list >/dev/null;
+        echo 'deb [arch=amd64 signed-by=/usr/share/keyrings/google-chrome-archive-keyring.gpg] http://dl.google.com/linux/chrome/deb/ stable main' | sudo tee /etc/apt/sources.list.d/google.list > /dev/null;
         apt-get update | dialog --progressbox 30 100;
-        apt-get install google-chrome-stable | dialog --progressbox 30 100;
-        apt-get install -f | dialog --progressbox 30 100;
-        apt-get update -y | dialog --progressbox 30 100;
+        apt-get install -y google-chrome-stable | dialog --progressbox 30 100;
+        apt-get install -f -y | dialog --progressbox 30 100;
         apt-get upgrade -y | dialog --progressbox 30 100;
         show_dpkg_menu;;
-     3) echo 'Unified Remote installation';
+     3)
+        echo 'Unified Remote installation';
         clear;
-	wget https://www.unifiedremote.com/download/linux-x64-deb;
-        dpkg -i linux-x64-deb | dialog --progressbox 30 100;
-	apt-get update | dialog --progressbox 30 100;
-        apt-get install -f | dialog --progressbox 30 100;
-	show_dpkg_menu;;
-     4) echo 'Wine installation';
+        wget https://www.unifiedremote.com/download/linux-x64-deb -O unified-remote.deb;
+        dpkg -i unified-remote.deb | dialog --progressbox 30 100;
+        apt-get update | dialog --progressbox 30 100;
+        apt-get install -f -y | dialog --progressbox 30 100;
+        show_dpkg_menu;;
+     4)
+        echo 'Wine installation';
         clear;
-	dpkg --add-architecture i386;
-	wget -O /etc/apt/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key;
-	gpg --no-default-keyring --keyring winehq-archive.gpg --export > tmp.gpg && mv tmp.gpg winehq-archive.gpg
-	gpg --no-default-keyring --keyring winehq.gpg --export > tmp.gpg && mv tmp.gpg winehq.gpg
-	mv ./wine*.gpg /etc/apt/trusted.gpg.d/
-	wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/ubuntu/dists/jammy/winehq-jammy.sources;
-	apt-get update -y | dialog --progressbox 30 100;
-	apt-get install -y --install-recommends winehq-devel | dialog --progressbox 30 100;
-	show_dpkg_menu;;
-     5) echo 'Webmin installation';
-        clear;
-	curl -o /tmp/jcameron-key.asc https://download.webmin.com/jcameron-key.asc;
-        gpg --no-default-keyring --keyring /usr/share/keyrings/webmin-keyring.gpg --import /tmp/jcameron-key.asc;
-        sh -c 'echo "deb [signed-by=/usr/share/keyrings/webmin-keyring.gpg] https://download.webmin.com/download/repository sarge contrib" | sudo tee /etc/apt/sources.list.d/webmin.list';
+        dpkg --print-foreign-architectures | grep -q i386 || dpkg --add-architecture i386;
+        wget -O /etc/apt/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key;
+        wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/ubuntu/dists/jammy/winehq-jammy.sources;
         apt-get update -y | dialog --progressbox 30 100;
-	apt-get install webmin | dialog --progressbox 30 100;
-	show_dpkg_menu;;
-     6) show_root_menu;;
-     x) echo 'Reboot';
+        apt-get install -y --install-recommends winehq-devel | dialog --progressbox 30 100;
+        show_dpkg_menu;;
+     5)
+        echo 'Webmin installation';
+        clear;
+        curl -o /tmp/jcameron-key.asc https://download.webmin.com/jcameron-key.asc;
+        sudo gpg --dearmor -o /usr/share/keyrings/webmin-keyring.gpg /tmp/jcameron-key.asc;
+        echo "deb [signed-by=/usr/share/keyrings/webmin-keyring.gpg] https://download.webmin.com/download/repository sarge contrib" | sudo tee /etc/apt/sources.list.d/webmin.list > /dev/null;
+        apt-get update -y | dialog --progressbox 30 100;
+        apt-get install -y webmin | dialog --progressbox 30 100;
+        show_dpkg_menu;;
+     6)
+        show_root_menu;;
+     x)
+        echo 'Reboot';
         reboot;;
-     q) clear; 
+     q)
+        clear;
         exit ;;
 esac
 }
